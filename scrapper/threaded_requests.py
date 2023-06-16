@@ -33,7 +33,7 @@ def _parse_page(page_num: int) -> tuple[int, str]:
     return page_num, page_source
 
 
-def get_all_pages(max_workers: int) -> dict[int: list[str]]:
+def get_all_pages(max_workers: int) -> dict[int, str]:
     total_pages = get_total_pages()
     print(f'{datetime.now().strftime(date_template)} | starting parsing')
 

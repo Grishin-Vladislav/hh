@@ -1,4 +1,4 @@
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, Tag
 
 from scrapper.threaded_requests import get_all_pages
 
@@ -21,14 +21,14 @@ class HHParser:
         for page in pages_to_remove:
             del self.article_body_tags[page]
 
-    def _brew_soups(self) -> dict[int: BeautifulSoup]:
+    def _brew_soups(self) -> dict[int, BeautifulSoup]:
         soups = {}
         for page_num, source in self.raw_pages.items():
             soups[page_num] = BeautifulSoup(source, 'html.parser')
 
         return soups
 
-    def _get_article_body_tags(self) -> dict[int: BeautifulSoup]:
+    def _get_article_body_tags(self) -> dict[int, list[Tag]]:
         articles = {}
         for page_num, soup in self.soups.items():
             articles[page_num] = soup.find_all(
@@ -36,7 +36,7 @@ class HHParser:
 
         return articles
 
-    def get_body_info(self) -> list[dict[str: str]]:
+    def get_body_info(self) -> list[dict[str, str]]:
         info = []
         for page in self.article_body_tags.values():
             for vacancy in page:
